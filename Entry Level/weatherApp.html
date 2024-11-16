@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <script src="http://cdn.tailwindcss.com"></script>
+</head>
+  <body class="bg-[url('./Images/bgImg.webp')] bg-no-repeat bg-cover bg-fixed flex justify-center mt-[10%]">
+    <div class="bg-gradient-to-br from-transparent to-gray-600/40  w-[70%] rounded-3xl px-[10%] py-10">
+      <section class="flex justify-center space-x-8">
+        <input type="text" placeholder="Enter any city name" spellcheck="false" id="input" class="w-[70%] rounded-full px-[5%] text-xs md:text-lg lg:text-2xl">
+        <button id="btn" class="rounded-xl size-[10%] max-w-10"><img src="./Images/search.png" class=""></button>
+      </section>
+      
+      <section id="error" class="hidden animate-pulse duration-infinite flex flex-col items-center">
+        <p class="text-white font-semibold whitespace-nowrap text-xs sm:text-2xl my-8">Oops! Location not found!</p>
+        <img src="./Images/notFound.svg" class="w-[70%] h-auto">
+      </section>
+      
+      <div id="weather" class="hidden">
+        <section class="flex flex-col justify-center items-center mt-10">
+          <img src="./Images/clear.png" id="weather-icon" class="w-[50%] max-w-64 object-contain">
+          <h1 id="temp" class="text-white text-4xl sm:text-6xl">22°c</h1>
+          <h2 id="city" class="text-white text-2xl sm:text-3xl">New York</h2>
+        </section>
+
+        <div class="flex justify-between mt-10 text-xs sm:text-lg">
+          <section class="flex mr-3">
+            <img src="./Images/humidity.png" class="w-[25%] max-w-10 object-contain">
+
+            <section class="text-white ml-1">
+              <p id="humidity">50%</p>
+              <p>Humidity</p>
+            </section>
+          </section>
+
+          <section class="flex">
+            <img src="./Images/wind.png" class="w-[25%] max-w-10 object-contain">
+
+            <section class="text-white ml-1">
+              <p id="speed">15 km/h</p>
+              <p>Wind Speed</p>
+            </section>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script src="./weather.js"></script>
+  </body>
+</html>
+
+<!--
+https://www.youtube.com/watch?v=MIYQR-Ybrn4
+https://www.youtube.com/watch?v=2jjR-iGxVYM
+
+
+-->
