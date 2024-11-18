@@ -1,10 +1,17 @@
+// Importing React Packages
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { motion } from "framer-motion"
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
-import QuestionTemplete from "./QuestionTemplate";
 import { Link, useNavigate } from "react-router-dom";
+
+// Importing React Toastify
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
+// Importing Framer Motion
+import { motion } from "framer-motion"
+
+// Importing Local Files
+import QuestionTemplete from "./QuestionTemplate";
 
 const Questions = () => {
   const [question, setQuestion] = useState([]);
@@ -67,7 +74,7 @@ const Questions = () => {
         {question &&
           question.map((n, index) => {
             return (
-              <Link key={index} to={`/questions/questiondetails/${n._id}`}>
+              <Link key={index} state={question} to={`/questions/questiondetails/${n._id}`}>
                 <QuestionTemplete index={index + 1} {...n} />
               </Link>
             );

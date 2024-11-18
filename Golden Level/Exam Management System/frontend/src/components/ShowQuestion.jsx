@@ -1,44 +1,61 @@
+// Importing React Packages
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
-import { motion } from "framer-motion";
-import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
-import { useParams } from "react-router-dom";
+// Importing React Toastify
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
+// Importing Framer Motion
+import { motion } from "framer-motion";
 
 const ShowQuestion = () => {
+  // useState
   const [question, setQuestion] = useState({});
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+  
+  // useNavigate
   const navigate = useNavigate();
-
+  
+  // useParams
+  const { id } = useParams();
+  
+  // useLocation
+  const data = useLocation();
+  const questions = data.state;
+  const currentIndex = questions.findIndex(q => q._id === id);
+  
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
-  const { id } = useParams();
-
-  const submitAnswer = () => {
-    axios
-      .post("http://localhost:3007/api/question/submit-answer", {
-        questionId: id,
-        answer: selectedOption,
-        email: localStorage.getItem("email"),
-      })
-      .then((res) => {
-        console.log(res);
+  const submitAnswer = async () => {
+    try {
+      const res = await axios
+        .post("http://localhost:3007/api/question/submit-answer", {
+          questionId: id,
+          answer: selectedOption,
+          email: localStorage.getItem("email"),
+        })
+        
         toast.success("option submitted successfully");
+        
         setTimeout(() => {
-          navigate("/questions");
+          if(questions.length-1 === currentIndex) navigate("/questions");
+          else navigate(`/questions/questiondetails/${questions[currentIndex+1]._id}`,  {
+            state: questions
+          });
         }, 1500);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.response.data.message);
-      });
+  
+      } catch (error) {
+        console.error(error);
+        toast.error(error.response.data.message);
+    }
   };
 
+  // useEffect
   useEffect(() => {
     setLoading(true);
     axios
@@ -52,12 +69,12 @@ const ShowQuestion = () => {
         // console.log(err);
         setLoading(false);
       });
-  }, []);
+  }, [id]);
 
   return (
     <div className="w-5/6 mx-auto mt-16">
       <div>
-        <p className="font-semibold text-lg mb-5">{question.question}</p>
+        <p className="font-semibold text-lg mb-5">Q{currentIndex+1}. {question.question}</p>
 
         <div className="flex flex-col gap-8">
           <div className="flex gap-3 items-center">
@@ -109,13 +126,24 @@ const ShowQuestion = () => {
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-5">
+          <motion.button
+            whileTap={{ scale: 0.7 }}
+            onClick={() => {navigate("/questions")}}
+            className="bg-blue-900 mt-10 px-10 font-semibold py-3 w-max mb-3 rounded-xl text-white"
+          >
+            Go Back
+          </motion.button>
+
           <motion.button
             whileTap={{ scale: 0.7 }}
             onClick={submitAnswer}
             className="bg-green-900 mt-10 px-10 font-semibold py-3 w-max mb-3 rounded-xl text-white"
           >
-            Submit
+            {questions.length-1 === currentIndex
+              ? "Submit"
+              : "Next Question"
+            }
           </motion.button>
         </div>
       </div>

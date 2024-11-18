@@ -1,5 +1,11 @@
+// Importing React Packages
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+
+// Importing Framer Motion
+import { AnimatePresence } from 'framer-motion';
+
+// Importing Local Files
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
@@ -10,7 +16,6 @@ import ShowQuestion from "./components/ShowQuestion";
 import CreateQuestion from "./components/Admin/CreateQuestion";
 import Admin from "./components/Admin/Admin";
 import PrivateRoute from "./components/PrivateRoute";
-import { AnimatePresence } from 'framer-motion';
 
 function App() {
   return (
